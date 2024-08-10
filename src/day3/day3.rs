@@ -13,25 +13,18 @@ pub fn part_1() -> u32 {
 
     for pos in 0..chars.len() {
         let line = pos / width;
-        let ch = chars[pos];
-        // println!("{}, {}, {}, {}", line, column, pos, ch);
-        if ch.is_numeric() {
+        if (chars[pos] as u32) < 10 {
             end = Some(pos);
             if start == None {
                 start = Some(pos);
             }
         } else {
-            let is_end_of_number = end != None;
-            if is_end_of_number {
-                if start.is_some() && end.is_some() {
+            if let Some(end_of_number) = end {
+                if start.is_some() {
                     let is_part_number =
-                        calculate_adjacency(&chars, start.unwrap(), end.unwrap(), line, width);
+                        calculate_adjacency(&chars, start.unwrap(), end_of_number, line, width);
                     if is_part_number {
-                        sum += get_number(&chars, start.unwrap(), end.unwrap());
-                        println!(
-                            "Found number: {}",
-                            get_number(&chars, start.unwrap(), end.unwrap())
-                        )
+                        sum += get_number(&chars, start.unwrap(), end_of_number);
                     }
                 } else {
                     println!("Error, number didnt end");
@@ -42,11 +35,11 @@ pub fn part_1() -> u32 {
         }
     }
     println!("Sum: {}", sum);
-    return sum;
+    sum
 }
 
 pub fn calculate_adjacency(
-    chars: &Vec<char>,
+    chars: &[char],
     start: usize,
     end: usize,
     line: usize,
@@ -57,32 +50,34 @@ pub fn calculate_adjacency(
     let end_compare = line * width + min((offset as usize) + 1, width - 1);
     for pos in start_compare..end_compare + 1 {
         if pos > 0 {
-            if !chars[pos].is_digit(10) && chars[pos] != '.' {
+            if !is_digit(chars[pos]) && chars[pos] != '.' {
                 return true;
             }
         }
         if pos + width < chars.len() {
-            if !chars[pos + width].is_digit(10) && chars[pos + width] != '.' {
+            if !is_digit(chars[pos + width]) && chars[pos + width] != '.' {
                 return true;
             }
         }
-        if (pos as i32 - width as i32) as i32 > 0 {
-            if !chars[pos - width].is_digit(10) && chars[pos - width] != '.' {
+        if (pos as i32 - width as i32) > 0 {
+            if !is_digit(chars[pos - width]) && chars[pos - width] != '.' {
                 return true;
             }
         }
     }
 
-    return false;
+    false
 }
 
-pub fn get_number(chars: &Vec<char>, start: usize, end: usize) -> u32 {
+pub fn get_number(chars: &[char], start: usize, end: usize) -> u32 {
     let mut sum = 0;
     for pos in start..end + 1 {
         let multi = end - pos;
-        if let Some(digit) = chars[pos].to_digit(10) {
-            sum += digit * (10 as u32).pow(multi as u32);
-        }
+        sum += chars[pos] as u32 * (10_u32).pow(multi as u32);
     }
-    return sum;
+    sum
+}
+
+pub fn is_digit(char: char) -> bool {
+    (char as u32) < 10
 }
