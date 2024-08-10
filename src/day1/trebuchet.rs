@@ -30,7 +30,7 @@ fn add_thing(text: String) -> u32 {
     let mut first: Option<u32> = None;
     let mut last: Option<u32> = None;
     let mut sum = 0;
-    let mut chars = text.chars().enumerate();
+    let chars = text.chars().enumerate();
     for (pos, ch) in chars {
         let forward = text.split_at(pos).1;
         let word = forward.split_at(std::cmp::min(forward.len(), 5)).0;
