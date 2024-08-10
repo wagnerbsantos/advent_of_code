@@ -7,7 +7,7 @@ pub fn part_1() -> u32 {
     let mut sum = 0;
     for line in lines {
         let doispontos = split_to_vec(line, ": ");
-        let game_text = doispontos.get(0).unwrap();
+        let game_text = doispontos.first().unwrap();
         let problem = doispontos.get(1).unwrap();
         let game_number: u32 = split_to_vec(game_text.clone(), " ")
             .get(1)
@@ -18,7 +18,7 @@ pub fn part_1() -> u32 {
         for situation in split_to_vec(problem.to_string(), "; ") {
             for ball in split_to_vec(situation.to_string(), ", ") {
                 let number_color = split_to_vec(ball.to_string(), " ");
-                let number: u32 = number_color.get(0).unwrap().parse().unwrap();
+                let number: u32 = number_color.first().unwrap().parse().unwrap();
                 let colorname = number_color.get(1).unwrap();
                 if (colorname == "red" && number > 12)
                     || (colorname == "green" && number > 13)
@@ -33,7 +33,7 @@ pub fn part_1() -> u32 {
         }
     }
     println!("{}", sum);
-    return 0;
+    0
 }
 
 pub fn part_2() -> u32 {
@@ -49,7 +49,7 @@ pub fn part_2() -> u32 {
         for situation in split_to_vec(problem.to_string(), "; ") {
             for ball in split_to_vec(situation.to_string(), ", ") {
                 let number_color = split_to_vec(ball.to_string(), " ");
-                let number: u32 = number_color.get(0).unwrap().parse().unwrap();
+                let number: u32 = number_color.first().unwrap().parse().unwrap();
                 let colorname = number_color.get(1).unwrap();
                 if colorname == "red" && number > red {
                     red = number
@@ -63,5 +63,5 @@ pub fn part_2() -> u32 {
         sum += red * green * blue;
     }
     println!("{}", sum);
-    return 0;
+    0
 }

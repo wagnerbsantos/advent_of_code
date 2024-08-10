@@ -15,23 +15,21 @@ pub fn part_1() -> u32 {
         let line = pos / width;
         if (chars[pos] as u32) < 10 {
             end = Some(pos);
-            if start == None {
+            if start.is_none() {
                 start = Some(pos);
             }
-        } else {
-            if let Some(end_of_number) = end {
-                if start.is_some() {
-                    let is_part_number =
-                        calculate_adjacency(&chars, start.unwrap(), end_of_number, line, width);
-                    if is_part_number {
-                        sum += get_number(&chars, start.unwrap(), end_of_number);
-                    }
-                } else {
-                    println!("Error, number didnt end");
+        } else if let Some(end_of_number) = end {
+            if start.is_some() {
+                let is_part_number =
+                    calculate_adjacency(&chars, start.unwrap(), end_of_number, line, width);
+                if is_part_number {
+                    sum += get_number(&chars, start.unwrap(), end_of_number);
                 }
-                start = None;
-                end = None;
+            } else {
+                println!("Error, number didnt end");
             }
+            start = None;
+            end = None;
         }
     }
     println!("Sum: {}", sum);
@@ -49,20 +47,14 @@ pub fn calculate_adjacency(
     let offset: u32 = (end as u32).abs_diff(line as u32 * width as u32);
     let end_compare = line * width + min((offset as usize) + 1, width - 1);
     for pos in start_compare..end_compare + 1 {
-        if pos > 0 {
-            if !is_digit(chars[pos]) && chars[pos] != '.' {
-                return true;
-            }
+        if pos > 0 && !is_digit(chars[pos]) && chars[pos] != '.' {
+            return true;
         }
-        if pos + width < chars.len() {
-            if !is_digit(chars[pos + width]) && chars[pos + width] != '.' {
-                return true;
-            }
+        if pos + width < chars.len() && !is_digit(chars[pos + width]) && chars[pos + width] != '.' {
+            return true;
         }
-        if (pos as i32 - width as i32) > 0 {
-            if !is_digit(chars[pos - width]) && chars[pos - width] != '.' {
-                return true;
-            }
+        if (pos as i32 - width as i32) > 0 && !is_digit(chars[pos - width]) && chars[pos - width] != '.' {
+            return true;
         }
     }
 

@@ -20,5 +20,5 @@ pub fn get_str_from_file(day: u32) -> String {
             println!("error {:?}", e)
         }
     }
-    return text;
+    text
 }

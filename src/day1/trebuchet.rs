@@ -17,13 +17,13 @@ pub fn get_str_from_file(path: &str) -> String {
             println!("error {:?}", e)
         }
     }
-    return text;
+    text
 }
 
 pub fn day1() -> u32 {
     let text = get_str_from_file("/home/kazye/projects/advent_of_code/src/day1/input.txt");
 
-    return add_thing(text);
+    add_thing(text)
 }
 
 fn add_thing(text: String) -> u32 {
@@ -31,16 +31,16 @@ fn add_thing(text: String) -> u32 {
     let mut last: Option<u32> = None;
     let mut sum = 0;
     let mut chars = text.chars().enumerate();
-    while let Some((pos, ch)) = chars.next() {
+    for (pos, ch) in chars {
         let forward = text.split_at(pos).1;
         let word = forward.split_at(std::cmp::min(forward.len(), 5)).0;
-        let mut txtnumber = try_word(&word);
+        let mut txtnumber = try_word(word);
         if ch.is_numeric() {
             txtnumber = Some(ch.to_digit(10).unwrap());
         }
         match txtnumber {
             Some(x) => {
-                if first == None {
+                if first.is_none() {
                     first = Some(x);
                     last = Some(x)
                 } else {
@@ -49,9 +49,9 @@ fn add_thing(text: String) -> u32 {
             }
             None => {}
         }
-        if ch.is_whitespace() && last != None && first != None {
+        if ch.is_whitespace() && last.is_some() && first.is_some() {
             let number = first.unwrap() * 10 + last.unwrap();
-            sum = sum + number;
+            sum += number;
             println!("{:?} {:?}", first, number);
             last = None;
             first = None;
@@ -59,8 +59,8 @@ fn add_thing(text: String) -> u32 {
     }
     let number = first.unwrap() * 10 + last.unwrap();
     println!("{}", number);
-    sum = sum + number;
-    return sum;
+    sum += number;
+    sum
 }
 
 fn try_word(word: &str) -> Option<u32> {
@@ -103,5 +103,5 @@ fn try_word(word: &str) -> Option<u32> {
         return Some(9);
     }
 
-    return None;
+    None
 }
