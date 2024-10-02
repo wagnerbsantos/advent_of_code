@@ -5,7 +5,9 @@ mod day3;
 
 fn main() {
     // println!("{}", day1::trebuchet::day1());
-    println!("{}", day3::day3::part_1());
-    println!("{}", day2::day2::part_1());
-    println!("{}", day2::day2::part_2());
+    // println!("{}", day3::day3::part_1());
+    println!("Hello, world!");
+    println!("{}", day3::day3::part_2());
+    // println!("{}", day2::day2::part_1());
+    // println!("{}", day2::day2::part_2());
 }
