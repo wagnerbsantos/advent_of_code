@@ -1,4 +1,4 @@
 use crate::common::file::get_str_from_file;
 
-pub mod part1;
+pub mod day1;
 
