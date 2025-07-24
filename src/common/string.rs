@@ -12,3 +12,12 @@ pub fn get_number(chars: &[char], start: usize, end: usize) -> u32 {
     }
     sum
 }
+
+pub fn get_number_i32(chars: &[char], start: usize, end: usize) -> i32 {
+    let mut sum = 0;
+    for pos in start..end {
+        let multi = end - pos -1;
+        sum += (chars[pos] as i32 -48) * (10_i32).pow(multi as u32);
+    }
+    sum
+}
